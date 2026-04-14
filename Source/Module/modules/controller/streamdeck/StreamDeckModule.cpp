@@ -207,13 +207,22 @@ void StreamDeckModule::setDevice(StreamDeck* newDevice)
 			break;
 		}
 
-		//for (int i = 0; i < numRows; ++i)
-		//{
-		//	for (int j = 0; j < numColumns; j++)
-		//	{
-		//		updateButton(i, j);
-		//	}
-		//}
+		// Defer initialization: give the device a moment to settle after HID open
+		// before sending any output reports.
+		WeakReference<StreamDeckModule> weakThis(this);
+		Timer::callAfterDelay(300, [weakThis]()
+		{
+			if (weakThis == nullptr || weakThis->device == nullptr) return;
+			weakThis->device->reset();
+			// Give the device time to process the reset before sending images
+			Timer::callAfterDelay(200, [weakThis]()
+			{
+				if (weakThis == nullptr || weakThis->device == nullptr) return;
+				for (int i = 0; i < weakThis->numRows; ++i)
+					for (int j = 0; j < weakThis->numColumns; j++)
+						weakThis->updateButton(i, j);
+			});
+		});
 	}
 
 	//rebuildValues();

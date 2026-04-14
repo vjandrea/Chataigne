@@ -77,4 +77,6 @@ public:
 
 	static StreamDeckModule * create() { return new StreamDeckModule(); }
 	virtual String getDefaultTypeString() const override { return "Stream Deck"; }
+
+	JUCE_DECLARE_WEAK_REFERENCEABLE(StreamDeckModule)
 };
