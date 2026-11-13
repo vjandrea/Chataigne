@@ -99,11 +99,10 @@ jobs:
 
       - name: Upload PDB
         if: matrix.arch == 'win-x64'
-        uses: ./.github/actions/upload
+        uses: actions/upload-artifact@v4
         with:
-          pkg-name: ${{ steps.compress_pdb.outputs.archive-path }}
-          kind: pdb
-          sftp-config: ${{ secrets.RELEASE_SFTP_CONFIG }}
+          name: pdb-${{ github.job }}-${{ strategy.job-index }}
+          path: ${{ steps.compress_pdb.outputs.archive-path }}
 
       - name: Stage Dependencies
         shell: powershell
@@ -174,10 +173,10 @@ jobs:
         working-directory: ./Binaries/CI/App
 
       - name: Upload
-        uses: ./.github/actions/upload
+        uses: actions/upload-artifact@v4
         with:
-          pkg-name: ./Binaries/CI/App/${{ steps.create_package.outputs.pkg-name }}
-          sftp-config: ${{ secrets.RELEASE_SFTP_CONFIG }}
+          name: ${{ github.job }}-${{ strategy.job-index }}
+          path: ./Binaries/CI/App/${{ steps.create_package.outputs.pkg-name }}
 
   osx:
     # if: false # tmp disable
@@ -336,10 +335,10 @@ jobs:
         working-directory: ./Package
 
       - name: Upload
-        uses: ./.github/actions/upload
+        uses: actions/upload-artifact@v4
         with:
-          pkg-name: ./Package/${{ steps.create_package.outputs.pkg-name }}
-          sftp-config: ${{ secrets.RELEASE_SFTP_CONFIG }}
+          name: ${{ github.job }}-${{ strategy.job-index }}
+          path: ./Package/${{ steps.create_package.outputs.pkg-name }}
 
   linux:
     name: Linux (x64)
@@ -659,10 +658,10 @@ jobs:
           done
 
       - name: Upload
-        uses: ./.github/actions/upload
+        uses: actions/upload-artifact@v4
         with:
-          pkg-name: ${{ steps.create_package.outputs.pkg-name }}
-          sftp-config: ${{ secrets.RELEASE_SFTP_CONFIG }}
+          name: ${{ github.job }}-${{ strategy.job-index }}
+          path: ${{ steps.create_package.outputs.pkg-name }}
 
   raspberrypi:
     name: Raspberry Pi (Cross-Compile)
@@ -1055,7 +1054,7 @@ jobs:
           echo "Raspberry payload smoke test passed for ${{ matrix.arch_name }}"
 
       - name: Upload
-        uses: ./.github/actions/upload
+        uses: actions/upload-artifact@v4
         with:
-          pkg-name: ${{ steps.create_package.outputs.pkg-name }}
-          sftp-config: ${{ secrets.RELEASE_SFTP_CONFIG }}
+          name: ${{ github.job }}-${{ strategy.job-index }}
+          path: ${{ steps.create_package.outputs.pkg-name }}
