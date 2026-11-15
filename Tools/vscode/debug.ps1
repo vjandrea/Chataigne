@@ -23,8 +23,9 @@ if (!$msbuildPath) {
     throw 'Visual Studio MSBuild and the C++ build tools are required.'
 }
 
-if (!(Test-Path -LiteralPath 'D:/Projects/Dev/JUCE/modules/juce_core/juce_core.h')) {
-    throw 'The generated project requires the shared JUCE checkout at D:\Projects\Dev\JUCE.'
+$jucePath = Join-Path $repoPath 'JUCE/modules/juce_core/juce_core.h'
+if (!(Test-Path -LiteralPath $jucePath)) {
+    throw "The generated project requires JUCE (benkuper/JUCE, develop-local) checked out at $repoPath\JUCE."
 }
 
 Push-Location $repoPath

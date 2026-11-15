@@ -27,7 +27,7 @@ echo Checking for MSBuild...
 set "MSBUILD="
 set "VSWHERE=%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe"
 if exist "%VSWHERE%" (
-    for /f "usebackq delims=" %%i in (`"%VSWHERE%" -latest -products * -requires Microsoft.Component.MSBuild -find "MSBuild\**\Bin\MSBuild.exe"`) do (
+    for /f "usebackq delims=" %%i in (`"%VSWHERE%" -latest -products * -find "MSBuild\**\Bin\MSBuild.exe"`) do (
         if not defined MSBUILD set "MSBUILD=%%i"
     )
 )
@@ -35,6 +35,9 @@ if exist "%VSWHERE%" (
 for %%p in (
     "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin\MSBuild.exe"
     "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe"
+    "C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\MSBuild.exe"
+    "C:\Program Files\Microsoft Visual Studio\18\Professional\MSBuild\Current\Bin\MSBuild.exe"
+    "C:\Program Files\Microsoft Visual Studio\18\Enterprise\MSBuild\Current\Bin\MSBuild.exe"
 ) do if not defined MSBUILD if exist %%p set "MSBUILD=%%~p"
 
 if not defined MSBUILD (
@@ -51,7 +54,7 @@ echo.
 
 if %errorlevel% NEQ 0 (
     echo.
-    echo BUILD FAILED (exit code %errorlevel%)
+    echo BUILD FAILED - exit code %errorlevel%
     exit /b %errorlevel%
 )
 
