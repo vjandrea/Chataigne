@@ -51,7 +51,7 @@ StreamDeckModule::StreamDeckModule(const String& name) :
 	targetDevice->isSavable = false; // saved as targetSerial instead, see getJSONData
 
 	deviceType = moduleParams.addEnumParameter("Device type", "Type of the device");
-	deviceType->addOption("StreamDeck (15 buttons)", STANDARD)->addOption("StreamDeck XL (32 buttons)", XL)->addOption("StreamDeck Mini (6 buttons)", MINI)->addOption("StreamDeck + XL (36 buttons, 6 dials)", PLUS_XL)->addOption("StreamDeck Pedal (3 buttons)", PEDAL);
+	deviceType->addOption("StreamDeck (15 buttons)", STANDARD)->addOption("StreamDeck XL (32 buttons)", XL)->addOption("StreamDeck Mini (6 buttons)", MINI)->addOption("StreamDeck + (8 buttons, 4 dials)", PLUS)->addOption("StreamDeck + XL (36 buttons, 6 dials)", PLUS_XL)->addOption("StreamDeck Pedal (3 buttons)", PEDAL);
 
 	dialSettingsCC.saveAndLoadRecursiveData = true;
 	moduleParams.addChildControllableContainer(&dialSettingsCC);
@@ -115,7 +115,7 @@ void StreamDeckModule::rebuildValues()
 	// Native button icon size per model, used to hint the Image parameters below.
 	// Images are stretched to fit, so anything works, but a square image at this
 	// size avoids distortion and upscaling blur.
-	const int iconSize = t == PLUS_XL ? 112 : (t == XL ? 96 : 72);
+	const int iconSize = t == PLUS ? 120 : (t == PLUS_XL ? 112 : (t == XL ? 96 : 72));
 
 	switch (t)
 	{
@@ -130,6 +130,10 @@ void StreamDeckModule::rebuildValues()
 	case XL:
 		numRows = 4;
 		numColumns = 8;
+		break;
+	case PLUS:
+		numRows = 2;
+		numColumns = 4;
 		break;
 	case PLUS_XL:
 		numRows = 4;
@@ -216,15 +220,16 @@ void StreamDeckModule::rebuildValues()
 
 	rebuildDials();
 
-	// The + XL keys are 112 px, so 10 px text is hard to read. Only the default changes:
+	// The + and + XL keys are 120 and 112 px, so 10 px text is hard to read. Only the default changes:
 	// a size the user set (or loaded from a file) is kept. This redraws every key,
 	// so it must run after the button parameters above exist.
-	if (textSize != nullptr) textSize->setDefaultValue(t == PLUS_XL ? 20 : 10, !textSize->isOverriden);
+	if (textSize != nullptr) textSize->setDefaultValue(t == PLUS || t == PLUS_XL ? 20 : 10, !textSize->isOverriden);
 }
 
 void StreamDeckModule::rebuildDials()
 {
-	numDials = deviceType->getValueDataAsEnum<DeviceType>() == PLUS_XL ? 6 : 0;
+	DeviceType t = deviceType->getValueDataAsEnum<DeviceType>();
+	numDials = t == PLUS ? 4 : (t == PLUS_XL ? 6 : 0);
 
 	while (dialValues.size() > numDials)
 	{
@@ -312,6 +317,10 @@ void StreamDeckModule::setDevice(StreamDeck* newDevice)
 
 		case StreamDeck::XL:
 			deviceType->setValueWithData(XL);
+			break;
+
+		case StreamDeck::PLUS:
+			deviceType->setValueWithData(PLUS);
 			break;
 
 		case StreamDeck::PLUS_XL:

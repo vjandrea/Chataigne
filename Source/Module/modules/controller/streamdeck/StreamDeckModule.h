@@ -25,7 +25,7 @@ public:
 	BoolParameter* isConnected;
 	StreamDeck* device;
 
-	enum DeviceType { STANDARD = 15, MINI = 6, XL = 32, PLUS_XL = 36, PEDAL = 3 };
+	enum DeviceType { STANDARD = 15, MINI = 6, XL = 32, PLUS_XL = 36, PEDAL = 3, PLUS = 8 };
 	EnumParameter* deviceType;
 
 	// Which connected Stream Deck this module drives. targetSerial is what's saved, so the choice

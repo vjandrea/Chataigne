@@ -147,6 +147,10 @@ StreamDeck* StreamDeckManager::openDevice(hid_device_info* deviceInfo)
 		cd = new StreamDeckPlusXL(d, String(deviceInfo->serial_number));
 		break;
 
+	case PID_PLUS:
+		cd = new StreamDeckPlus(d, String(deviceInfo->serial_number));
+		break;
+
 	case PID_PEDAL:
 		cd = new StreamDeckPedal(d, String(deviceInfo->serial_number));
 		break;
@@ -170,7 +174,7 @@ bool StreamDeckManager::isSupportedPID(int pid)
 {
 	switch (pid)
 	{
-	case PID_MINI: case PID_V1: case PID_V2: case PID_MK2: case PID_XL: case PID_XL_V2: case PID_PLUS_XL: case PID_PEDAL:
+	case PID_MINI: case PID_V1: case PID_V2: case PID_MK2: case PID_XL: case PID_XL_V2: case PID_PLUS: case PID_PLUS_XL: case PID_PEDAL:
 		return true;
 	}
 	return false;

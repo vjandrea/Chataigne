@@ -986,6 +986,9 @@
                       file="Source/Module/modules/controller/streamdeck/models/StreamDeckPlusXL.cpp"/>
                 <FILE id="pXl6Hh" name="StreamDeckPlusXL.h" compile="0" resource="0"
                       file="Source/Module/modules/controller/streamdeck/models/StreamDeckPlusXL.h"/>
+                <FILE id="hK2mz7" name="StreamDeckPlus.cpp" compile="0" resource="0"
+                      file="Source/Module/modules/controller/streamdeck/models/StreamDeckPlus.cpp"/>
+                <FILE id="jN5qx1" name="StreamDeckPlus.h" compile="0" resource="0" file="Source/Module/modules/controller/streamdeck/models/StreamDeckPlus.h"/>
                 <FILE id="pD4al2" name="StreamDeckPedal.cpp" compile="0" resource="0"
                       file="Source/Module/modules/controller/streamdeck/models/StreamDeckPedal.cpp"/>
                 <FILE id="qR8nz9" name="StreamDeckPedal.h" compile="0" resource="0"
