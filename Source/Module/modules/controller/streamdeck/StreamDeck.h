@@ -19,7 +19,7 @@ class StreamDeck :
 	public Thread
 {
 public:
-	enum Model { MINI, STANDARD_V1, STANDARD_V2, XL };
+	enum Model { MINI, STANDARD_V1, STANDARD_V2, XL, PEDAL };
 
 	StreamDeck(hid_device* device, String serialNumber, Model model, int numColumns, int numRows, bool invertX, int iconSize, int keyDataOffset);
 	virtual ~StreamDeck();

@@ -42,7 +42,7 @@ StreamDeckModule::StreamDeckModule(const String& name) :
 
 
 	deviceType = moduleParams.addEnumParameter("Device type", "Type of the device");
-	deviceType->addOption("StreamDeck (15 buttons)", STANDARD)->addOption("StreamDeck XL (32 buttons)", XL)->addOption("StreamDeck Mini (6 buttons)", MINI);
+	deviceType->addOption("StreamDeck (15 buttons)", STANDARD)->addOption("StreamDeck XL (32 buttons)", XL)->addOption("StreamDeck Mini (6 buttons)", MINI)->addOption("StreamDeck Pedal (3 buttons)", PEDAL);
 
 	brightness = moduleParams.addFloatParameter("Brightness", "Sets the brigthness of the deck's backlight", .75f, 0, 1);
 	textSize = moduleParams.addIntParameter("Text size", "Sets the size of the text on the buttons", 10, 1, 50);
@@ -98,6 +98,10 @@ void StreamDeckModule::rebuildValues()
 	case XL:
 		numRows = 4;
 		numColumns = 8;
+		break;
+	case PEDAL:
+		numRows = 1;
+		numColumns = 3;
 		break;
 	}
 
@@ -204,6 +208,10 @@ void StreamDeckModule::setDevice(StreamDeck* newDevice)
 
 		case StreamDeck::XL:
 			deviceType->setValueWithData(XL);
+			break;
+
+		case StreamDeck::PEDAL:
+			deviceType->setValueWithData(PEDAL);
 			break;
 		}
 
