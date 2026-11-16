@@ -164,7 +164,7 @@ void StreamDeck::run()
 			int numRead = device != nullptr ? hid_read(device, data, 1024) : 0;
 			if (numRead > 0)
 			{
-				if (data[0] == 1)
+				if (data[0] == 1 && numRead >= keyDataOffset + numKeys)
 				{
 					for (int i = 0; i < numKeys; ++i)
 					{

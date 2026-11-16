@@ -235,7 +235,8 @@ void StreamDeckModule::updateButton(int row, int column)
 	if (device == nullptr) return;
 	//GenericScopedLock lock(rebuildingLock);
 
-	if (row < 0 || row >= numRows || column < 0 || column >= numColumns) return;
+	// numRows/numColumns change before the parameter arrays during a rebuild, so check the arrays
+	if (row < 0 || row >= images.size() || column < 0 || column >= images[row]->size()) return;
 
 	File f = (*images[row])[column]->getFile();
 

@@ -140,6 +140,7 @@ StreamDeck* StreamDeckManager::openDevice(hid_device_info* deviceInfo)
 	if (cd == nullptr)
 	{
 		LOGERROR("StreamDeck model not supported : " << (int)deviceInfo->product_id);
+		hid_close(d);
 		return nullptr;
 	}
 
